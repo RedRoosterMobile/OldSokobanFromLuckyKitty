@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Wool-Maze</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" src="js/jquery.transit.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+	 
+	var $player;
+	var $sokoban;
+	const TILE_SIZE= 50;
+	
+	const soundSuccess='sounds/kids_yeah.mp3';
+	
+	var currentLevelUrl='';
+	var levels = [
+		'kittySoko01.txt',
+		'kittySoko02.txt',
+		'kittySoko03.txt',
+		'kittySoko04.txt',
+		'kittySoko05.txt',
+		'kittySoko06.txt',
+		'kittySoko07.txt',
+		'kittySoko08.txt',
+		'kittySoko09.txt',
+		'kittySoko10.txt',
+		'kittySoko11.txt',
+		'kittySoko12.txt',
+		'kittySoko13.txt',
+		'kittySoko14.txt',
+		'kittySoko15.txt',
+		'kittySoko16.txt',
+		'kittySoko17.txt',
+		'kittySoko18.txt',
+		'kittySoko19.txt',
+		'kittySoko20.txt',
+		'kittySoko21.txt',
+		'kittySoko22.txt',
+		'kittySoko23.txt',
+		'kittySoko24.txt',
+		'kittySoko25.txt',
+		'kittySoko26.txt',
+		'kittySoko27.txt',
+		'kittySoko28.txt',
+		'kittySoko29.txt',
+		'kittySoko30.txt',
+		'kittySoko31.txt',
+		'kittySoko32.txt',
+		'kittySoko33.txt',
+		'kittySoko34.txt',
+		'kittySoko35.txt'
+		/*'kittySoko36.txt',
+		'kittySoko37.txt',
+		'kittySoko38.txt',
+		'kittySoko39.txt',
+		'kittySoko40.txt',
+		'kittySoko41.txt',
+		'kittySoko42.txt',
+		'kittySoko43.txt',
+		'kittySoko44.txt',
+		'kittySoko45.txt',
+		'kittySoko46.txt',
+		'kittySoko47.txt',
+		'kittySoko48.txt',
+		'kittySoko49.txt',
+		'kittySoko50.txt',
+		'kittySoko51.txt',
+		'kittySoko52.txt',
+		'kittySoko53.txt',
+		'kittySoko54.txt',
+		'kittySoko55.txt',
+		'kittySoko56.txt'*/
+	];
+	
+	$(document).bind(readyEvent,function() {
+	 
+			setNavigationListeners();
+			$content = $('#content');
+					
+			if (LOCALSTORAGE.hasItem('bg')===true) {
+				setBackground(LOCALSTORAGE.getItem('bg'));
+			}
+			
+			
+			
+			initRandomMap();
+			
+			addMediaUrl(soundSuccess);
+			//currentLevelUrl='maps/soko047.txt';
+			//loadMapUrl(currentLevelUrl);
+	});
+	
+	function initRandomMap() {
+		// remove previous listeners
+		$('.navButtons').unbind(clickEvent);
+		// clear previous dom elements
+		$('#sokoban').html('');
+		
+		var levelUrl,idx;
+		do {
+			idx = randomInt(0,levels.length-1);
+			levelUrl=levels[idx];
+		} while (levelUrl == currentLevelUrl);
+		// assign new level
+		currentLevelUrl=levelUrl;
+		//build map
+		loadMapUrl('maps/'+currentLevelUrl);
+	}
+	
+		 
+// huge function
+function showMap(map) {
+	 
+				/**
+				 * '' empty 0
+				 * # wall 1
+ 				 * . goal 2
+				 * $ crate 3
+				 * @ player 4
+				 * * crate on goal (crate in my case) 5
+				 * ??? player on goal 6
+				 */
+
+		$player=$("#player");
+		$sokoban=$("#sokoban");
+		var player_pos;
+		var easingFunction= 'swing';//'snap';
+		//NOTE: fix in CSS too
+		var sSize=50;
+		loadMap($sokoban,map);
+		$player.addClass('left');
+		
+		
+		 
+		
+		//depends on playerpos & sSize
+		function loadMap($target,map ) {
+		
+			for(i=0;i<map.length;i++){
+				for(j=0;j<map[i].length;j++){
+					switch(map[i][j]){
+						case 1:
+							$target.append('<div class = "wall" style = "top:'+(i*parseInt(sSize))+'px;left:'+(j*parseInt(sSize))+'px"></div>');
+							break;
+						case 2:
+							$target.append('<div class = "goal" style = "top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							break;
+						case 3:
+							$target.append('<div id = "c'+i+'_'+j+'" class = "crate" style = "z-index:1000;top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							break;
+						case 4:
+							map[i][j]=0;
+							player_pos = new Array(i,j);
+							$target.append('<div id ="player" style = "z-index:1001;top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							break;
+						case 5:
+							$target.append('<div class = "goal" style = "top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							$target.append('<div id = "c'+i+'_'+j+'" class = "crate" style = "z-index:1000;top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							break;
+						case 6:
+							map[i][j]=2;
+							player_pos = new Array(i,j);
+							$target.append('<div class = "goal" style = "top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							$target.append('<div id ="player" style = "z-index:1001;top:'+i*sSize+'px;left:'+j*sSize+'px"></div>');
+							break;
+					}
+				}
+			}
+     	}
+		//depends on playerpos
+     	function possible_move(x,y){
+     		var tile = map[player_pos[0]+y][player_pos[1]+x]
+     		var far_tile = map[player_pos[0]+2*y][player_pos[1]+2*x]
+     		var can_move = false;
+     		var solved = true;
+     		if(tile==0 || tile==2){
+                    can_move = true;
+                    solved = false;
+               }
+               else{
+                    if((tile==3 || tile==5) && (far_tile==0 || far_tile==2)){
+                         map[player_pos[0]+y][player_pos[1]+x]-=3;
+                         map[player_pos[0]+2*y][player_pos[1]+2*x]+=3;
+                         $("#c"+(player_pos[0]+y)+"_"+(player_pos[1]+x)).animate({
+                              left: "+="+(x*TILE_SIZE),
+                              top: "+="+(y*TILE_SIZE)
+                         },100,easingFunction,function(){
+                              for(i=0;i<map.length;i++){
+                                   for(j=0;j<map[i].length;j++){
+                                        if(map[i][j]==2){
+                                             solved = false;
+                                             break;
+                                        }
+                                   }
+                              }
+                              if(solved){
+									// TODO: show random cheerup message
+                                   phoneGapAlert("You are so smart!");
+								   // Your mind is as sharp as a razorblade!
+								   // Terrific!
+								   //play sound
+								   playMyAudio(soundSuccess);
+                              }
+                         }).attr("id","c"+(player_pos[0]+2*y)+"_"+(player_pos[1]+2*x))
+                         can_move = true;
+                    }
+               }	
+               if(can_move){
+                    player_pos[0]+=y;
+                    player_pos[1]+=x;
+				
+					// TODO jquery animate. change this to css transforms
+					$('#player').animate({
+						left: "+="+(x*TILE_SIZE),
+						top: "+="+(y*TILE_SIZE)
+					},100,easingFunction);
+					/*scale:1.1*/
+				
+               }
+     	}
+		
+		
+			$('.navButtons').bind(clickEvent, function(event) {
+					event.preventDefault();
+					navigate(event.target.id);
+			});
+			navBound=true;
+		
+		  
+		function navigate(direction) {
+			switch(direction){
+     			case 'left':
+					$('#player').removeClass('right up down left');
+					$('#player').addClass('left');
+     				possible_move(-1,0)
+     				break;
+     			case 'up':
+					$('#player').removeClass('right up down left');
+					$('#player').addClass('up');
+     				possible_move(0,-1)
+     				break;
+				case 'down':
+					$('#player').removeClass('right up down left');
+					$('#player').addClass('down');
+     				possible_move(0,1)
+     				break;
+					
+     			case 'right':
+					$('#player').removeClass('right up down left');
+					$('#player').addClass('right');
+     				possible_move(1,0)
+     				break;
+     		}
+		}
+}
+//end of huge function
+
+		function textToMap(text) {
+			var parts=text.split("\n");
+			
+			
+			var i=parts.length;
+			var map = new Array();
+			
+			for(i=0;i<parts.length;i++) {
+				var line = parts[i];//lines
+				if(line.indexOf("Title:") === 0) {
+					break;
+				}
+				
+				// process line
+				var letters = line.split('');
+				/**
+				 * '' empty 0
+				 * # wall 1
+ 				 * . goal 2
+				 * $ crate 3
+				 * @ player 4
+				 * * crate on goal (crate in my case) 5
+				 * ??? player on goal 6
+				 */
+				map[i]=new Array();
+				for(j=0;j<letters.length;j++) {
+					// transform into numbercode
+					var letter = letters[j];
+					switch(letter){
+						case ' ':
+								map[i].push(0);
+								break;
+						case '#':
+								map[i].push(1);
+								break;
+						case '.':
+									map[i].push(2);
+									break;
+						case '$':
+									map[i].push(3);
+									break;
+						case '@':
+									map[i].push(4);
+									break;
+						case '@':
+									map[i].push(4);
+									break;
+						case '*':
+									map[i].push(5);
+									break;
+					}
+					//map[i].push(letters[j]);
+				}
+			}
+			return map;
+		}
+
+		
+		function loadMapUrl(url) {
+			$.get(url, function(data) {
+					var map = textToMap(data);
+					showMap(map);
+			});
+		}
+		
+		function clearMap() {
+			$('.navButtons').unbind(clickEvent);
+			$('#sokoban').html('');
+			loadMapUrl('maps/'+currentLevelUrl);
+		}
+		
+		function setNavigationListeners() {
+			
+			$('#back').bind(clickEvent, function(event) {
+				event.preventDefault();
+				document.location='awards.html';
+			});
+			$('#newGame').bind(clickEvent, function(event) {
+				event.preventDefault();
+				// new game
+				initRandomMap();
+			});
+			$('#reload').bind(clickEvent, function(event) {
+				event.preventDefault();
+				// reset game
+				clearMap();
+			});
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+		
+		
+		//helpers
+		function random(min, max) {
+			min = min || 0;
+			max = max || 1;
+			return Math.random() * (max - min) + min;
+		}
+    
+		function randomInt(min, max) {
+			return Math.floor(random(min, max));
+		}
+		
+     </script>
+	 <style type="text/css">
+     .wall{
+     	background-image: url('images/new/games/game3/TeppichmusterDunkel.png');
+		width:50px;
+		height:50px;
+     	position:absolute;	
+     }
+ 
+     .goal{
+     	background-image: url('images/new/games/game3/kreis.png');
+		width:50px;
+		height:50px;
+     	position:absolute;	
+     }
+ 
+     .crate{
+		background-image: url('images/new/games/game3/wolle.png');
+		width:50px;
+		height:50px;
+     	position:absolute;	
+     }
+ 
+     #player{
+     	background-image: url('images/new/games/game3/katze.png');
+		width:50px;
+		height:50px;
+     	position:absolute;
+		/*-webkit-transform: translateZ(0) rotate(0deg);*/
+     }
+	 #sokoban {
+		position:relative;
+		left:-50px;
+		top:-50px;
+		padding-right: 50px;
+		padding-bottom: 50px;
+		width: 300px;
+		height: 300px;
+		overflow: hidden;
+		background-image: url('images/new/games/game3/TeppichmusterHell.png');
+	 }
+	 @-webkit-keyframes hover {
+		 from {-webkit-transform: translateZ(0) scale(1.0);}
+		 50% {-webkit-transform: translateZ(0) scale(1.2);}
+		 to {-webkit-transform: translateZ(0) scale(1);}
+	 }
+	 
+	 .navButtons {
+		background: url('images/new/games/game3/steuerungSprite55px.png') -7px -16px no-repeat;
+		overflow:hidden;
+		height:44px;
+		width:44px;
+	 }
+	 #controls {
+		position:absolute;
+		top: 360px;
+		left: 65px;
+	 }
+	 #up.navButtons {
+		margin-left:5px;
+		background-position-x: -64px;
+	 }
+	 #right.navButtons {
+		margin-left:5px;
+		background-position-x: -175px;
+	 }
+	 #down.navButtons {
+		margin-left:5px;
+		background-position-x: -120px;
+	 }
+	 #sokoWrapper {
+		width:300px;
+		overflow:hidden;
+		position:relative;
+		left:9px;
+		top:7px;
+		-webkit-box-shadow: 0px 2px 8px #333;
+		height: 304px;
+	 }
+	 .carpetBorder {
+		background-image: url('images/new/games/game3/TeppichrandBeforeAfter.png');
+		width:300px;
+		height:4px;
+		
+	 }
+	 .carpetBorder.top {
+		position:absolute;
+		top: 3px;
+		left: 9px;
+	 }
+	 .carpetBorder.bottom {
+		-webkit-transform: translateZ(0) translateY(-50px);
+	 }
+	 
+     </style>
+  </head>
+  <body>
+	
+	<div id="content" class="">
+		<div class="carpetBorder top"></div>
+		<div id="sokoWrapper">
+			<div id ="sokoban"></div>
+			<div class="carpetBorder bottom"></div>
+		</div>
+		<div id="controls">
+			<div class="navButtons floatLeft" id="left"></div>
+			<div class="navButtons floatLeft" id="up"></div>
+			<div class="navButtons floatLeft" id="down"></div>
+			<div class="navButtons floatLeft" id="right"></div>
+			<div class="clear"></div>
+		</div>
+		<div id="newGame" class="gameThree"></div>
+		<div id="reload"></div>
+		<div id="back" ></div>
+	</div>
+    
+  </body>
+</html>

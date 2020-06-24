@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Lucky Pussy- Intro</title>
+
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/SCOREHELPER.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<!--
+		<link rel="apple-touch-startup-image" href="startup.png">
+		<link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone4.png" />
+	-->
+	<script type="text/javascript">
+	
+		var $content;
+		
+		$(document).ready( function() {
+			$content = $('#content');
+		});
+		
+		
+		//helpers
+		function random(min, max){
+			min = min || 0;
+			max = max || 1;
+			return Math.random() * (max - min) + min;
+		}
+		function randomInt(min, max){
+			return Math.floor(this.random(min, max));
+		}
+	</script>
+	
+	<style type="text/css">
+		
+		
+	</style>
+	
+  </head>
+  
+  <body>
+	
+	<div id="content" class="">
+		<div id="introTextHolder" class="blurredText">
+			<div class="letter l1">T</div>
+			<div class="letter l2">h</div>
+			<div class="letter l3">i</div>
+			<div class="letter l4">s</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+    
+  </body>
+</html>

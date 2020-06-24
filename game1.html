@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Find the Mouse</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+	/* game ideas
+		http://www.openrise.com/lab/FlowerPower/
+		//http://rosettacode.org/wiki/Animate_a_pendulum#JavaScript_.2B_.3Ccanvas.3E
+	*/
+		// just show background images
+		// and move around DIVs for golden and grey cat and LEAVE click events on them.
+		// just alter their state
+		const ROUND_TIME = 30;
+		const soundSuccess='sounds/kids_yeah.mp3';
+		const soundSqueak='sounds/squeak.mp3';
+		const soundPop='sounds/pop.mp3';
+		
+		var clickEvent = 'createTouch' in document?'touchstart':'click';
+		var interval;
+		// remaining time in seconds
+		var remainingTime = ROUND_TIME;
+		var totalScore=0;
+		//var easingFunction= 'snap';
+		var mouseBoxArray;
+		var $goodMouse;
+		var $badMouse;
+		var $goodMouseHit;
+		var $badMouseHit;
+		var $time;
+		var $score;
+		
+		$(document).bind(readyEvent,function() {
+				setNavigationListeners();
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				
+				$('#time').html(remainingTime);
+				$('#score').html(totalScore);
+				
+				mouseBoxArray = $('.mouseBox');
+				//mouseBoxArray.removeClass('hit').removeClass('goodMouse').removeClass('badMouse');
+				$badMouse=$('.badMouse');
+				$goodMouse=$('.goodMouse');
+				$badMouseHit=$('.badMouseHit');
+				$goodMouseHit=$('.goodMouseHit');
+				$time=$('#time');
+				$score=$('#score');
+				
+				// set sound
+				addMediaUrl(soundSuccess);
+				addMediaUrl(soundSqueak);
+				addMediaUrl(soundPop);
+				
+				// bind click event
+				$goodMouse.bind(clickEvent, clickGoodMouse);
+				$badMouse.bind(clickEvent, clickBadMouse);
+				
+				setTheMouse();
+		});
+		
+		function setTheMouse(lastClickedClass) {
+			var oldRandom;
+			var oldRandomBad;
+			var oddBadMouse=true;
+			var random;
+			var randomBad;
+			//milliseconds
+			var intervalLength=500;
+			interval = setInterval(function () {
+				// hide clicked-images
+				if ( lastClickedClass !== undefined ) {
+					$(lastClickedClass).hide();
+				}
+				// count down time
+				remainingTime-=intervalLength/1000;
+				// update Time 
+				$time.html(Math.floor(remainingTime));
+				if (Math.floor(remainingTime)<=0) {
+					//stop game
+					clearInterval(interval);
+					playMyAudio(soundSuccess);
+					// show message depending on score
+					if (totalScore<=25) {
+						phoneGapAlert('You can do better. Trust me!');
+					} else if (totalScore>25 && totalScore<40) {
+						phoneGapAlert('Quite well. You are showing some talent here!');
+					} else if (totalScore>=40 && totalScore<50) {
+						phoneGapAlert('You got it! You can make it to the top!');
+					} else if (totalScore>=50 && totalScore<60) {
+						phoneGapAlert('Awesome! You broke the barrier!');
+					} else if (totalScore>=60 && totalScore<70) {
+						phoneGapAlert('Amazing!');
+					} else if (totalScore>=70 && totalScore<80) {
+						phoneGapAlert('Magnificent!');
+					} else if (totalScore>=80 && totalScore<90) {
+						phoneGapAlert('Fingers as fast as a concert pianist!');
+					} else if (totalScore>=90 && totalScore<100) {
+						phoneGapAlert('Your new title is: Uberfinger!');
+					} else if (totalScore>=100) {
+						phoneGapAlert('OMG... That was unbelievable!');
+					}
+					
+				}
+				
+				// get random value
+				random = randomInt(0,mouseBoxArray.length-1);
+				randomBad = randomInt(0,mouseBoxArray.length-1);
+				
+				while (random===randomBad) {
+					randomBad = randomInt(0,mouseBoxArray.length-1);
+				}
+				
+				//set good mouse position
+				var goodPos = getMousePosition(random);
+				$goodMouse.css('left',goodPos.x);
+				$goodMouse.css('top',goodPos.y);
+				$goodMouse.show();
+				
+				// only move bad mouse every second iteration
+				if (oddBadMouse===true) {
+					var badPos = getMousePosition(randomBad);
+					$badMouse.css('left',badPos.x);
+					$badMouse.css('top',badPos.y);
+					$badMouse.show();
+					oddBadMouse = !oddBadMouse;
+				} else {
+					oddBadMouse = !oddBadMouse;
+				}
+				
+			},intervalLength);
+		}
+		
+		
+		var clickGoodMouse=function (event) {
+			event.preventDefault();
+			if ( Math.floor(remainingTime)>0 ) {
+				playMyAudio(soundPop);
+				clearInterval(interval);
+				var left=$goodMouse[0].offsetLeft;
+				var top=$goodMouse[0].offsetTop;
+				$goodMouse.hide();
+				$badMouse.hide();
+				$goodMouseHit.css('left',left);
+				$goodMouseHit.css('top',top);
+				$goodMouseHit.show();
+				// score up
+				totalScore+=3;
+				$score.html(totalScore);
+				var timeout=setTimeout(setTheMouse('.goodMouseHit'), 2000);
+			}
+		}
+		
+		var clickBadMouse=function (event) {
+			event.preventDefault();
+			if ( Math.floor(remainingTime)>0 ) {
+				playMyAudio(soundSqueak);
+				clearInterval(interval);
+				var left=$badMouse[0].offsetLeft;
+				var top=$badMouse[0].offsetTop;
+				$badMouse.hide();
+				$goodMouse.hide();
+				$badMouseHit.css('left',left);
+				$badMouseHit.css('top',top);
+				$badMouseHit.show();
+				// score down
+				if(totalScore>8) {
+					totalScore-=8;
+				} else {
+					totalScore=0;
+				}
+				$score.html(totalScore);
+				var timeout=setTimeout(setTheMouse('.badMouseHit'), 2000);
+			}
+		}
+		
+		function getMousePosition(number) {
+			return {
+					'x':mouseBoxArray[number].offsetLeft,
+					'y':mouseBoxArray[number].offsetTop
+			};
+		}
+		
+		function setNavigationListeners() {
+			$('#back').bind(clickEvent, function(event) {
+				event.preventDefault();
+				document.location='awards.html';
+			});
+			$('#newGame').bind(clickEvent, function(event) {
+				event.preventDefault();
+				// reset game
+				clearInterval(interval);
+				remainingTime = ROUND_TIME;
+				totalScore = 0;
+				$goodMouse.hide();
+				$badMouse.hide();
+				$goodMouseHit.hide();
+				$badMouseHit.hide();
+				setTheMouse();
+			});
+		}
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+	</script>
+	<style type="text/css">
+		#mouseBoxHolder {
+			margin-left: 15px;
+			padding-top: 15px;
+		}
+		.mouseBox {
+			background-image: url('images/new/games/game1/loch.png');
+			width: 72px;
+			height: 72px;
+			float: left;
+		}
+		
+		.goodMouse {
+			position:absolute;
+			width: 72px;
+			height: 72px;
+			background-image: url('images/new/games/game1/goldeneMaus.png');
+		}
+		.goodMouseHit {
+			position:absolute;
+			width: 72px;
+			height: 72px;
+			background-image: url('images/new/games/game1/goldeneMausRelease.png');
+			-webkit-animation-name: popOut;
+			-webkit-animation-duration: 0.2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) scale(1);
+		}
+		.badMouse {
+			position:absolute;
+			width: 72px;
+			height: 72px;
+			background-image: url('images/new/games/game1/graueMaus.png');
+		}
+		.badMouseHit {
+			position:absolute;
+			width: 72px;
+			height: 72px;
+			background-image: url('images/new/games/game1/graueMausRelease.png');
+			-webkit-animation-name: popOut;
+			-webkit-animation-duration: 0.2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) scale(1);
+		}
+		
+		#scoreHolder {
+			position: absolute;
+			top: 433px;
+			left: 108px;
+		}
+	</style>
+  </head>
+  <body>
+	
+	<div id="content" class="">
+		<div id="mouseBoxHolder">
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			
+			<div class="mouseBox"> </div>
+			<!--test-->
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			<div class="mouseBox"> </div>
+			
+			
+			<div class="clear"></div>
+		</div>
+		
+		<div id="scoreHolder">
+			<p>Time:<span id="time"></span> Score:<span id="score"></span></p></div>
+		</div>
+		<div id="newGame"></div>
+		<div id="back" ></div>
+		<div class="hide goodMouse"> </div>
+		<div class="hide badMouse"> </div>
+		<div class="hide goodMouseHit"> </div>
+		<div class="hide badMouseHit"> </div>
+	</div>
+    
+  </body>
+</html>

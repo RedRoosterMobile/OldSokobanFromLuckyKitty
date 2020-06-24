@@ -1,0 +1,807 @@
+/**
+ * css for iphone 3GS and up -  320 x 480 px 
+ * todo: http://www.cssdrive.com/compressor/compress.php
+ * better http://devilo.us/#
+ * can save 45 % aka 15KB
+ */
+		* {
+			margin:0;border:0;padding:0;
+			font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+			letter-spacing: 0.05em;
+			line-height: 1.4em;
+			font-size: 12px;
+			color:white;
+			-webkit-user-select: none;
+			-webkit-touch-callout: none;
+		}
+		
+		body {
+		 background-color: #000;
+		}
+		
+		a {
+			text-decoration:none;
+			-webkit-touch-callout: none;
+		}
+		a:visited {
+			text-decoration:none;
+		}
+		
+		img {
+			border:0;
+		}
+		.hide {
+			display:none;
+		}
+		.clear {
+			clear:both;
+		}
+		.floatLeft {
+			float:left;
+		}
+		.floatRight {
+			float:right;
+		}
+		#content {
+			width: 320px;
+			height: 480px;
+		}
+		/* Different backgrounds */
+		
+		#content.redStar {
+			background: url('../images/new/bg/RedStar.jpg') 0 0 no-repeat;
+		}
+		#content.redStar.dark {
+			background: url('../images/new/bg/RedStarDark.jpg') 0 0 no-repeat;
+		}
+		#content.paperMountain {
+			background: url('../images/new/bg/paperMountain.jpg') 0 0 no-repeat;
+		}
+		#content.paperMountain.dark {
+			background: url('../images/new/bg/paperMountainDark.jpg') 0 0 no-repeat;
+		}
+		#content.moonShine {
+			background: url('../images/new/bg/nightMoon.jpg') 0 0 no-repeat;
+		}
+		#content.moonShine.dark {
+			background: url('../images/new/bg/nightMoonDark.jpg') 0 0 no-repeat;
+		}
+		#content.japaneseSunset {
+			background: url('../images/new/bg/japaneseSunset.jpg') 0 0 no-repeat;
+		}
+		#content.japaneseSunset.dark {
+			background: url('../images/new/bg/japaneseSunsetDark.jpg') 0 0 no-repeat;
+		}
+		
+		#content.blueRainbow {
+			background: url('../images/new/bg/blueClouds.jpg') 0 0 no-repeat;
+		}
+		#content.blueRainbow.dark {
+			background: url('../images/new/bg/blueCloudsDark.jpg') 0 0 no-repeat;
+		}
+		#content.redSun {
+			background: url('../images/new/bg/redSun.jpg') 0 0 no-repeat;
+		}
+		@-webkit-keyframes rotateBackground {
+			from {
+				-webkit-transform: translateZ(0) rotate(0deg);
+			}
+			to {
+				-webkit-transform: translateZ(0) rotate(360deg);
+			}
+		}
+		#content.redSun.dark {
+			background: url('../images/new/bg/redSunDark.jpg') 0 0 no-repeat;
+		}
+		#content.blueCircles {
+			background: url('../images/new/bg/BlauKachel.jpg') 0 0 no-repeat;
+		}
+		#content.blueCircles.dark {
+			background: url('../images/new/bg/BlauKachelDark.jpg') 0 0 no-repeat;
+		}
+		#content.purpleHaze {
+			background: url('../images/new/bg/dark.jpg') 0 0 no-repeat;
+		}
+		#content.purpleHaze.dark {
+			background: url('../images/new/bg/darkdark.jpg') 0 0 no-repeat;
+		}
+		
+		#menu {
+			position: relative;
+			top: 92px;
+			left: 9px;
+		}
+		
+		.menuItem {
+			text-align:center;
+		}
+		
+		#bar {
+			width: 8px;
+			height: 250px;
+			position: absolute;
+			left: 14px;
+			top: 100px;
+			border: 0.2px solid #111;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#077617), color-stop(50%,#FCD345), color-stop(100%,#BF0217)); 
+			-webkit-box-shadow: 0px 0px 5px #111;
+		}
+		
+		#slider {
+			background: url('../images/new/misc/status_arrow.png') 0 0 no-repeat;
+			width:14px;
+			height:20px;
+			position: relative;
+			top: 250px;
+			left: 10px;
+			-webkit-transform: translate3d(0px,-9px,0);
+			-webkit-animation-name: slideUpDown;
+			-webkit-animation-duration: 2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+		}
+		@-webkit-keyframes slideUpDown {
+			0% {
+				top: 250px;
+			}
+			50% {
+				top:0px;
+			}
+			100% {
+				top: 250px;
+			}
+		}
+		
+		#cat {
+			width:220px;
+			height:300px;
+			position:relative;
+			top: 59px;
+			left:50px;
+			overflow:hidden;
+			/*-webkit-animation-name: showCat;*/
+			-webkit-animation-duration: 2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) rotateZ(0deg) scaleX(1) scaleY(1);
+		}
+		
+		.acat_normal {
+			background: url('../images/new/cats/sprites/a_cat.png') 0 -300px no-repeat;
+		}
+		.acat_normal.happy,.bcat_normal.happy , .ccat_normal.happy, .dcat_normal.happy,.ecat_normal.happy,.fcat_normal.happy,.gcat_normal.happy,.hcat_normal.happy{
+			background-position-y: 0;
+		}
+		.bcat_normal {
+			background: url('../images/new/cats/sprites/b_cat.png') 0 -300px no-repeat;
+		}
+	
+		.ccat_normal {
+			background: url('../images/new/cats/sprites/c_cat.png') 0 -300px no-repeat;
+		}
+
+		.dcat_normal {
+			background: url('../images/new/cats/sprites/d_cat.png') 0 -300px no-repeat;
+		}
+
+		.ecat_normal {
+			background: url('../images/new/cats/sprites/e_cat.png') 0 -300px no-repeat;
+		}
+
+		.fcat_normal {
+			background: url('../images/new/cats/sprites/f_cat.png') 0 -300px no-repeat;
+		}
+
+		.gcat_normal {
+			background: url('../images/new/cats/sprites/g_cat.png') 0 -300px no-repeat;
+		}
+
+		.hcat_normal {
+			background: url('../images/new/cats/sprites/h_cat.png') 0 -300px no-repeat;
+		}
+
+		
+		/*TODO: change in relation to sound*/
+		@-webkit-keyframes showCat {
+			0% {
+				-webkit-transform: translateZ(0); opacity:0;
+			}
+			100%{
+				-webkit-transform: translateZ(0); opacity:1;
+			}
+		}
+		
+		@-webkit-keyframes shake {
+			from {-webkit-transform:translate3d(0px,0px,0);}
+			50% {-webkit-transform:translate3d(0px,2px,0);}
+			to {-webkit-transform:translate3d(0px,0px,0);}
+		}
+		
+		#soHappy {
+				background: url('../images/new/misc/imSoHappyKomplett.png') 0 0 no-repeat;
+				position:absolute;
+				width:114px;
+				height:90px;
+				top: 3px;
+				-webkit-animation-duration: 2s;
+				-webkit-animation-iteration-count: 1;
+				-webkit-animation-timing-function: ease-in-out;
+				-webkit-animation-name: popOut;
+				display:none;
+		}
+		
+		.badge {
+			width:50px;
+			height:60px;
+			position:absolute;
+			top: 13px;
+			-webkit-animation-duration: 2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-name: popOut;
+		}
+		.badge.first {
+			background: url('../images/new/misc/badges/bronce.png') 0 0 no-repeat;
+			left: 230px;
+		}
+		.badge.second {
+			background: url('../images/new/misc/badges/silver.png') 0 0 no-repeat;
+			left: 250px;
+		}
+		.badge.third {
+			background: url('../images/new/misc/badges/gold.png') 0 0 no-repeat;
+			left: 270px;
+		}
+		
+		.stars {
+			background: url('../images/new/misc/lotuslotus.png') 0 0 no-repeat;
+			width:35px;
+			height:35px;
+			background-size:100%;
+			position:absolute;
+			opacity:0;
+			-webkit-animation-duration: 2s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) rotateZ(360deg);
+		}
+		.hearts {
+			background: url('../images/new/awards/starAktiv.png') 0 0 no-repeat;
+			width:33px;
+			height:33px;
+		}
+		
+		.star1 {
+			left:130px;
+			top:80px;
+		}
+		.star2 {
+			left:135px;
+			top:90px;
+		}
+		.star3 {
+			left:145px;
+			top:90px;
+		}
+		.star4 {
+			left:145px;
+			top:80px;
+		}
+		
+		@-webkit-keyframes cherryBlossom1 {
+			from {-webkit-transform: translate3d(0px,0px,0) rotateZ(0deg);opacity:1;-webkit-animation-timing-function: ease-out;}
+			5% {-webkit-transform: translate3d(10px,-32px,0) rotateZ(30deg) ;opacity:1;-webkit-animation-timing-function: ease-in;}
+			20% {-webkit-transform: translate3d(20px,22px,0) rotateZ(120deg);opacity:1;-webkit-animation-timing-function: linear;}
+			to {-webkit-transform: translate3d(60px,300px,0) rotateZ(720deg);opacity:0;}
+		}
+		@-webkit-keyframes cherryBlossom2 {
+			from {-webkit-transform: translate3d(0px,0px,0) rotateZ(0deg);opacity:1;-webkit-animation-timing-function: ease-out;}
+			5% {-webkit-transform: translate3d(-10px,-34px,0) rotateZ(-40deg);opacity:1;-webkit-animation-timing-function: ease-in;}
+			20% {-webkit-transform: translate3d(-22px,26px,0) rotateZ(-140deg);opacity:1;-webkit-animation-timing-function: linear;}
+			to {-webkit-transform: translate3d(-64px,300px,0) rotateZ(-700deg);opacity:0;}
+		}
+		@-webkit-keyframes cherryBlossom3 {
+			from {-webkit-transform: translate3d(0px,0px,0) rotateZ(0deg);opacity:1;-webkit-animation-timing-function: ease-out;}
+			5% {-webkit-transform: translate3d(10px,-32px,0) rotateZ(60deg) rotateX(30deg) ;opacity:1;-webkit-animation-timing-function: ease-in;}
+			20% {-webkit-transform: translate3d(35px,22px,0) rotateZ(150deg);opacity:1;-webkit-animation-timing-function: linear;}
+			to {-webkit-transform: translate3d(60px,300px,0) rotateZ(780deg);opacity:0;}
+		}
+		@-webkit-keyframes cherryBlossom4 {
+			from {-webkit-transform: translate3d(0px,0px,0) rotateZ(0deg);opacity:1;-webkit-animation-timing-function: ease-out;}
+			5% {-webkit-transform: translate3d(-10px,-34px,0) rotateZ(-40deg);opacity:1;-webkit-animation-timing-function: ease-in;}
+			20% {-webkit-transform: translate3d(-22px,26px,0) rotateZ(-170deg);opacity:1;-webkit-animation-timing-function: linear;}
+			to {-webkit-transform: translate3d(-64px,300px,0) rotateZ(-760deg);opacity:0;}
+		}
+		
+		#infoImg {
+			background: url('../images/new/menu/01_info.png') 0 0 no-repeat;
+			width:46px;
+			height:70px;
+		}
+		#settingsImg {
+			background: url('../images/new/menu/02_settings.png') 0 0 no-repeat;
+			width:65px;
+			height:70px;
+		}
+		#awardsImg {
+			background: url('../images/new/menu/03_awards.png') 0 0 no-repeat;
+			width:65px;
+			height:70px;
+		}
+		#niceImg {
+			background: url('../images/new/menu/04_cuteTalk.png') 0 0 no-repeat;
+			width:60px;
+			height:70px;
+		}
+		#nutImg {
+			background: url('../images/new/menu/05_luckyNut.png') 0 0 no-repeat;
+			width:62px;
+			height:70px;
+		}
+		
+		.bold {
+			font-weight:bold;
+		}
+		
+/* ============================================================================================================================
+== SPEECH BUBBLE HOLDER (more CSS3)
+** ============================================================================================================================ */
+		#bubbleHolder {
+			width:320px;
+			height:370px;
+			background: url('../images/new/misc/blas.png') 0 0  no-repeat;
+			margin:auto;
+		}
+		
+		#quote, #nut {
+			text-align: center;
+			width: 200px;
+			color: black;
+			height:300px;
+			margin-left:30px;
+			padding-left: 65px;
+			font-weight: bold;
+			/* center vertically */
+			display:table-cell;vertical-align:middle;
+			padding-top: 5px;
+		}
+		
+		.quote  {
+			color: black;
+		}
+		
+		#author {
+			padding-top:4px;
+			color: black;
+			font-size: 10px;
+		}
+		
+		#nutSpeaker {
+			background: url('../images/new/misc/luckyNutCat.png') 0 0  no-repeat;
+			width: 160px;
+			height:110px;
+			margin: auto;
+		}
+		
+		#cuteSpeaker {
+			background: url('../images/new/misc/cuteTalkCat.png') 0 0  no-repeat;
+			width: 160px;
+			height:110px;
+			margin: auto;
+		}
+		
+/* ============================================================================================================================
+== INFO HOLDER (more CSS3)
+** ============================================================================================================================ */
+		#infoHolder {
+			margin:auto;
+			width:320px;
+			text-align:center;
+			color: #fff;
+			font-weight: bold;
+		}
+		
+		#infoLogo {
+			background: url('../images/new/misc/infoIcon.png') 0 0  no-repeat;
+			width: 320px;
+			height: 180px;
+			margin:auto;
+			-webkit-animation-name: popOut;
+			-webkit-animation-duration: 0.3s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) scale(1);
+		}
+		
+		#sampleCat {
+			margin: auto;
+			background: url('../images/new/misc/fotoAPP80.jpg') 0 0 no-repeat;
+			width: 134px;
+			height: 160px;
+			border: solid 5px white;
+			border-bottom-width:10px;
+			-webkit-transform: translateZ(0) translateX(3px) rotate(-2deg);
+			-webkit-box-shadow:7px 7px 17px #222;
+		}
+		#ourLogo {
+			margin: auto;
+			background: url('../images/new/misc/logo117x120.png') 0 0 no-repeat;
+			width: 117px;
+			height: 120px;
+		}
+		@-webkit-keyframes popOut {
+			from {-webkit-transform: translate3d(0px,0px,0) scale(1);}
+			50% {-webkit-transform: translate3d(0px,-10px,0) scale(1.1);}
+			to {-webkit-transform: translate3d(0px,0px,0) scale(1);}
+		}
+		
+		#infoHolder p {
+			margin-bottom:10px;
+		}
+		
+		#headline {
+			font-size: 18px;
+			width:300px;
+			margin: auto;
+			margin-bottom:10px;
+			text-align:center;
+		}
+		
+		#back {
+			background: url('../images/new/misc/backButton.png') 0 0  no-repeat;
+			width: 80px;
+			height: 30px;
+			position: absolute;
+			top: 442px;
+			
+		}
+		#fbpost {
+			background: url('../images/new/misc/facebookButton.png') 0 0  no-repeat;
+			position:absolute;
+			width:63px;
+			height:68px;
+			top: 417px;
+			left: 252px;
+		}
+		
+		#newGame {
+			background: url('../images/new/games/game1/neewButton.png') 0 0  no-repeat;
+			position:absolute;
+			width:80px;
+			height:34px;
+			top:414px;
+			left:120px;
+		}
+		#newGame.gameThree {
+			top: 437px;
+			left:120px;
+		}
+		#reload {
+			background: url('../images/new/games/game3/retry.png') 0 0  no-repeat;
+			position:absolute;
+			width:51px;
+			height:53px;
+			top: 425px;
+			left: 259px;
+		}
+		
+/* ============================================================================================================================
+== SCROLLER (more CSS3)
+** ============================================================================================================================ */
+		#wrapper {
+			/*iscroll*/
+			position:relative;	/* needed */
+			z-index:1;			/* needed and important */
+			overflow:hidden;	/* suggested */
+			height:210px;
+		}
+		
+		#scroller {
+			position: relative;
+			top: 0;
+			width: 280px;
+			padding: 0px;
+			left: 20px;
+		}
+/* ============================================================================================================================
+== AWARDS (more CSS3)
+** ============================================================================================================================ */
+		#awardsIcon {
+			background: url('../images/new/awards/awardsIcon.png') 0 0  no-repeat;
+			width:320px;
+			height:71px;
+			margin:auto;
+			position:relative;
+		}
+		
+		#scoreHolder {
+			width:300px;
+			margin:auto;
+			padding-top:10px;
+		}
+		
+		.scoreHolderItem {
+			margin:auto;
+			width:271px;
+			text-align:center;
+			margin-top: 5px;
+		}
+		
+		.scoreItem {
+			width:33px;
+			height:33px;
+			float:left;
+			margin-top: 5px;
+			/*-webkit-animation-name: popOut;*/
+			-webkit-animation-duration: 0.3s;
+			-webkit-animation-iteration-count: 3;
+			-webkit-animation-timing-function: ease-in-out;
+		}
+		
+		.scoreStar {
+			background: url('../images/new/awards/starAktiv.png') 0 0  no-repeat;
+		}
+		.scoreHeart {
+			background: url('../images/new/awards/heartAktiv.png') 0 0  no-repeat;
+		}
+		.scoreCrown {
+			background: url('../images/new/awards/CrownAktiv.png') 0 0  no-repeat;
+		}
+		.scoreStar.inactive {
+			background: url('../images/new/awards/starInaktiv.png') 0 0  no-repeat;
+		}
+		.scoreHeart.inactive {
+			background: url('../images/new/awards/heartInaktiv.png') 0 0  no-repeat;
+		}
+		.scoreCrown.inactive {
+			background: url('../images/new/awards/CrownInaktiv.png') 0 0  no-repeat;
+		}
+		
+		#awardHolder {
+			width: 320px;
+			margin: auto;
+			text-align:center;
+			padding-top: 8px;
+		}
+		
+		.awardItem {
+			float:left;
+			/*-webkit-animation-name: popOut;*/
+			-webkit-animation-duration: 0.3s;
+			-webkit-animation-iteration-count: 3;
+			-webkit-animation-timing-function: ease-in-out;
+		}
+		/*inactive items*/
+		.awardItem.first {
+			background: url('../images/new/awards/1.png') 0 0  no-repeat;
+			width:110px;
+			height:100px;
+		}
+		.awardItem.second {
+			background: url('../images/new/awards/2.png') 0 0  no-repeat;
+			width:105px;
+			height:100px;
+		}
+		.awardItem.third {
+			background: url('../images/new/awards/3.png') 0 0  no-repeat;
+			width:105px;
+			height:100px;
+		}
+		/* active items */
+		.awardItem.first.active {
+			background: url('../images/new/awards/awards_1.png') 0 0  no-repeat;
+			width:110px;
+			height:100px;
+		}
+		.awardItem.second.active {
+			background: url('../images/new/awards/awards_2.png') 0 0  no-repeat;
+			width:105px;
+			height:100px;
+		}
+		.awardItem.third.active {
+			background: url('../images/new/awards/awards_3.png') 0 0  no-repeat;
+			width:105px;
+			height:100px;
+		}
+		
+		.awardText {
+			width: 100px;
+			height: 20px;
+			float: left;
+			position: relative;
+			left: 33px;
+		}
+/* ============================================================================================================================
+== SETTINGS (more CSS3)
+** ============================================================================================================================ */
+		#settingsIcon {
+			background: url('../images/new/settings/settingsCatIcon.png') 0 0  no-repeat;
+			width:320px;
+			height:70px;
+			margin:auto;
+			padding-top:20px;
+			-webkit-animation-name: popOut;
+			-webkit-animation-duration: 0.3s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translate3d(0px,0px,0) scale(1);
+		}
+		
+		#setCats {
+			background: url('../images/new/settings/settingsSprite.png') 0 0  no-repeat;
+			overflow:hidden;
+			width:320px;
+			height:50px;
+		}
+		#setBg {
+			background: url('../images/new/settings/settingsSprite.png') 0 -50px  no-repeat;
+			overflow:hidden;
+			width:320px;
+			height:50px;
+		}
+		#setAwards {
+			background: url('../images/new/settings/settingsSprite.png') 0 -100px  no-repeat;
+			overflow:hidden;
+			width:320px;
+			height:50px;
+		}
+		#setAbout {
+			background: url('../images/new/settings/settingsSprite.png') 0 -150px  no-repeat;
+			overflow:hidden;
+			width:320px;
+			height:50px;
+		}
+		
+		#setHelp {
+			background: url('../images/new/settings/settingsSprite.png') 0 -200px  no-repeat;
+			overflow:hidden;
+			width:320px;
+			height:50px;
+		}
+		#setAbout.about {
+			background: url('../images/new/settings/settingsAbout.png') 0 0  no-repeat;
+			overflow:hidden;
+		}
+		#setAbout.about, #setHelp.help {
+			padding-top: 30px;position: relative;top: 22px;
+			-webkit-animation-name: popOut;
+			-webkit-animation-duration: 0.3s;
+			-webkit-animation-iteration-count: 1;
+			-webkit-animation-timing-function: ease-in-out;
+			-webkit-animation-direction:normal;
+			-webkit-animation-fill-mode: forwards;
+			-webkit-transform: translateZ(0);
+		}
+		#soundOnOff {
+			background: url('../images/new/settings/soundOnOffSprite.png') 0 0   no-repeat;
+			width:149px;
+			height:50px;
+			margin: 0 auto;
+		}
+		#soundOnOff.off {
+			background-position-y: -49px;
+			background-position-x: 2px;
+			/* change bg position*/
+		}
+		
+/* ============================================================================================================================
+== BACKGROUNDS (more CSS3)
+** ============================================================================================================================ */
+		#backgrounds {
+			padding-left:5px;
+			padding-top:5px;
+			
+		}
+		.background ,.settingsCat{
+			width:100px;
+			height:100px;
+			float:left;
+			margin:2px;
+			-webkit-box-shadow: 0px 0px 8px #111;
+		}
+		
+		.background.redStar {
+			background: url('../images/new/bg/thumbnails/1-.jpg') 0 0  no-repeat;
+		}
+		.background.redStar.active {
+			background: url('../images/new/bg/thumbnails/1.jpg') 0 0  no-repeat;
+		}
+		.background.paperMountain {
+			background: url('../images/new/bg/thumbnails/2-.jpg') 0 0  no-repeat;
+		}
+		.background.paperMountain.active {
+			background: url('../images/new/bg/thumbnails/2.jpg') 0 0  no-repeat;
+		}
+		.background.moonShine {
+			background: url('../images/new/bg/thumbnails/3-.jpg') 0 0  no-repeat;
+		}
+		.background.moonShine.active{
+			background: url('../images/new/bg/thumbnails/3.jpg') 0 0  no-repeat;
+		}
+		.background.japaneseSunset {
+			background: url('../images/new/bg/thumbnails/4-.jpg') 0 0  no-repeat;
+		}
+		.background.japaneseSunset.active {
+			background: url('../images/new/bg/thumbnails/4.jpg') 0 0  no-repeat;
+		}
+		.background.blueRainbow {
+			background: url('../images/new/bg/thumbnails/5-.jpg') 0 0  no-repeat;
+		}
+		.background.blueRainbow.active {
+			background: url('../images/new/bg/thumbnails/5.jpg') 0 0  no-repeat;
+		}
+		.background.redSun {
+			background: url('../images/new/bg/thumbnails/6-.jpg') 0 0  no-repeat;
+		}
+		.background.redSun.active {
+			background: url('../images/new/bg/thumbnails/6.jpg') 0 0  no-repeat;
+		}
+		.background.blueCircles {
+			background: url('../images/new/bg/thumbnails/7-.jpg') 0 0  no-repeat;
+		}
+		.background.blueCircles.active {
+			background: url('../images/new/bg/thumbnails/7.jpg') 0 0  no-repeat;
+		}
+		.background.purpleHaze {
+			background: url('../images/new/bg/thumbnails/8-.jpg') 0 0  no-repeat;
+		}
+		.background.purpleHaze.active {
+			background: url('../images/new/bg/thumbnails/8.jpg') 0 0  no-repeat;
+		}
+		
+		.settingsCat.acat_normal {
+			background: url('../images/new/cats/thumbnails/1-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.acat_normal.active {
+			background: url('../images/new/cats/thumbnails/1.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.bcat_normal {
+			background: url('../images/new/cats/thumbnails/2-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.bcat_normal.active {
+			background: url('../images/new/cats/thumbnails/2.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.ccat_normal {
+			background: url('../images/new/cats/thumbnails/3-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.ccat_normal.active{
+			background: url('../images/new/cats/thumbnails/3.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.dcat_normal {
+			background: url('../images/new/cats/thumbnails/5-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.dcat_normal.active {
+			background: url('../images/new/cats/thumbnails/5.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.ecat_normal {
+			background: url('../images/new/cats/thumbnails/7-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.ecat_normal.active {
+			background: url('../images/new/cats/thumbnails/7.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.fcat_normal {
+			background: url('../images/new/cats/thumbnails/6-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.fcat_normal.active {
+			background: url('../images/new/cats/thumbnails/6.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.gcat_normal {
+			background: url('../images/new/cats/thumbnails/4-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.gcat_normal.active {
+			background: url('../images/new/cats/thumbnails/4.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.hcat_normal {
+			background: url('../images/new/cats/thumbnails/8-.jpg') 0 0  no-repeat;
+		}
+		.settingsCat.hcat_normal.active {
+			background: url('../images/new/cats/thumbnails/8.jpg') 0 0  no-repeat;
+		}

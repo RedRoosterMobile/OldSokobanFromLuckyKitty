@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Awards</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/SCOREHELPER.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+
+		$(document).bind(readyEvent,function() {
+				$('#back').bind(clickEvent, function(event) {
+					event.preventDefault();
+					document.location='index.html';
+				});
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				
+				//set score progess
+				setStarsActive();
+				// set achieved awards items
+				setAwardItems();
+		});
+		
+		function setAwardItems() {
+			// 3 times popOut animation length of scoreItems
+			var AWARD_ANIMATION_DELAY=900;
+			var $awardItems = $('.awardItem');
+			var totalScore = parseInt( SCOREHELPER.getSavedScore() );
+			
+			// set touch listeners for lining to playgrounds
+			if ( totalScore>=6 ) {
+				$('.awardItem.first').bind(clickEvent,function() {
+					document.location="game1.html";
+				});
+				$('.awardItem.first').addClass('active');
+				// if achieved today: make it popOut three times
+				if( (totalScore===6 ) && (SCOREHELPER.hasScoredToday()===true)) {
+					// add animation
+					setTimeout(function() {
+						$('.awardItem.first')[0].style.webkitAnimationName = "popOut";
+					},AWARD_ANIMATION_DELAY);
+				}
+			}
+			if ( totalScore>=10 ) {
+				$('.awardItem.second').bind(clickEvent,function(){
+					document.location="game2.html";
+				});
+				$('.awardItem.second').addClass('active');
+				if( (totalScore===10 ) && (SCOREHELPER.hasScoredToday()===true)) {
+					// add animation
+					setTimeout(function() {
+						$('.awardItem.second')[0].style.webkitAnimationName = "popOut";
+					},AWARD_ANIMATION_DELAY);
+				}
+			}
+			if ( totalScore>=16 ) {
+				$('.awardItem.third').bind(clickEvent,function(){
+					document.location="game3.html";
+				});
+				$('.awardItem.third').addClass('active');
+				if((totalScore===16) && (SCOREHELPER.hasScoredToday()===true)) {
+					// add animation
+					setTimeout(function() {
+						$('.awardItem.third')[0].style.webkitAnimationName = "popOut";
+					},AWARD_ANIMATION_DELAY);
+				}
+			}
+		}
+		
+		function setStarsActive() {
+			// how many backgrounds?
+			var bgs = SCOREHELPER.getAvailableBackgrounds();
+			// how many cats?
+			var cats = SCOREHELPER.getAvailableCats();
+			
+			var $scoreItems = $('.scoreItem');
+			var totalScore = parseInt( SCOREHELPER.getSavedScore() );
+			var catsText = ' ';
+			var bgText = ' ';
+			
+			
+			//TODO: put this monster somewhere else
+			if ( (totalScore%2)==0 ) {
+				//even: next item will be bg
+				if (SCOREHELPER.hasScoredToday()===true) {
+					//1 day BG
+					bgText="Background "+(bgs.length+1)+"|8 in 1 day.";
+					//2 days cat
+					catsText = "Cat "+(cats.length+1)+"|8 in 2 days.";
+				} else {
+					// today bg
+					bgText="Background "+(bgs.length+1)+"|8 today? Be nice to your kitty!";
+					// 1 day cat
+					catsText = "Cat "+(cats.length+1)+"|8 in 1 day.";
+				}
+			} else {
+				//odd: next item will be cat
+				if (SCOREHELPER.hasScoredToday()===true) {
+					//1 day cat
+					catsText = "Cat "+(cats.length+1)+"|8 in 1 day.";
+					//2 days bg
+					bgText="Background "+(bgs.length+1)+"|8 in 2 days.";
+				} else {
+					// today cat
+					catsText="Cat "+(cats.length+1)+"|8 today? Be nice to your kitty!";
+					// 1 day bg
+					bgText="Background "+(bgs.length+1)+"|8 in 1 day.";
+				}
+			}
+			if (bgs.length>=8) {
+				bgText="Awesome, you got all backgrounds!";
+			}
+			if (totalScore>=16) {
+				catsText="Great, you got all cats!";
+			}
+			$('#nextBgsText').html(bgText);
+			$('#nextCatsText').html(catsText);
+			// END of monster
+			
+			// 2 times
+			for (var i=0;i<bgs.length;i++) {
+				// 8 items
+				$($scoreItems[i]).removeClass('inactive');
+			}
+			
+			for (var i=8;i<cats.length+8;i++) {
+				// 8 items
+				$($scoreItems[i]).removeClass('inactive');
+			}
+			// maybe put this somewhere else, takes quite some space
+			if ( (SCOREHELPER.hasScoredToday()===true) && (totalScore <= 16) ) {
+				if (totalScore%2===0) {
+					var lastCatNumber= (SCOREHELPER.getAvailableCats()).length;
+					// even: make last cat pop 3 times
+					$($scoreItems[8+lastCatNumber-1])[0].style.webkitAnimationName = "popOut";
+					// onclick lead user to cats-page
+					$($scoreItems[8+lastCatNumber-1]).bind(clickEvent, function () {
+						document.location='cats.html';
+					});
+				}
+				else {
+					// odd: make last bg pop 3 times
+					var lastBgNumber= (SCOREHELPER.getAvailableBackgrounds()).length;
+					$($scoreItems[lastBgNumber-1])[0].style.webkitAnimationName = "popOut";
+					// onclick lead user to bgs-page
+					$($scoreItems[lastBgNumber-1]).bind(clickEvent, function () {
+						document.location='backgrounds.html';
+					});
+				}
+			}
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+	</script>
+  </head>
+  <body>
+	
+	<div id="content" class="dark">
+		<div id="awardsIcon"></div>
+		<div id="headline">
+				Receive a new feature after spending a happy day with your cat
+		</div>
+		<div id="scoreHolder">
+			<div class="scoreHolderItem">
+				<div id="nextBgsText"></div>
+				<div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreHeart inactive"></div>
+					<div class="scoreItem scoreHeart inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="scoreHolderItem">
+				<div id="nextCatsText"></div>
+				<div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreStar inactive"></div>
+					<div class="scoreItem scoreHeart inactive"></div>
+					<div class="scoreItem scoreHeart inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="scoreItem scoreCrown inactive"></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div id="awardHolder">
+			<div>Awards:</div>
+			<div>
+				<div class="awardItem first"></div>
+				<div class="awardItem second"></div>
+				<div class="awardItem third"></div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="awardText">
+			<div>
+				<div class="awardText first">6 Stars</div>
+				<div class="awardText second">4 Hearts</div>
+				<div class="awardText third">&nbsp;6 Crowns</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="back" ></div>
+	</div>
+    
+  </body>
+</html>

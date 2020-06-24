@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cats</title>
+    <script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/SCOREHELPER.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.json-2.3.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	
+	<script type="text/javascript">
+		var inmobi_conf = {
+			siteid : "4028cba631d63df10131e1d3191d00cb",
+			//siteid:"4028cbff36f39ce2013727870b6e2cc7",
+			slot : 15,
+			test: true,
+            manual:true
+        };
+	
+		// in case of adjustment , change css too!
+		const CSS_ANIMATION_TIME = 2000;
+		//start animation
+		//standard animation
+		//happy animation
+
+		// DOM elements
+		var $stars;
+		var $bar;
+		var $slider;
+		var $cat;
+		var $content;
+		
+		// statics
+		var oneEithInPixels;
+		var date;
+		var currentLuck=0;
+        var DEFAULT_CAT;
+		var DEFAULT_BG;
+		$(document).bind(readyEvent, function() {
+			addMediaUrl("sounds/meow1.mp3");
+			addMediaUrl("sounds/purr1.mp3");
+			// init score if not there yet
+			if ( !SCOREHELPER.hasSavedScore() ) {
+				// four because it already has 2 cats and two default backgrounds
+				SCOREHELPER.setSavedScore(4);
+			}
+			DEFAULT_CAT = SCOREHELPER.getAvailableCats()[0];
+			DEFAULT_BG = SCOREHELPER.getAvailableBackgrounds()[0];
+			
+			
+			// set bages, depending on score
+			setBadges();
+			// assign elements
+			$stars = $('.stars');
+			$bar = $('#bar');
+			$cat = $('#cat');
+			$content = $('#content');
+			$slider = $('#slider');
+			//250 height of bar....strange iphone-bug
+			oneEithInPixels = (250/8)-0.95;
+			
+		  
+			if (LOCALSTORAGE.hasItem('cat')===true) {
+				setCat(LOCALSTORAGE.getItem('cat'));
+			} else {
+				// set default cat (first in list)
+				setCat(DEFAULT_CAT);
+			}
+
+			if (LOCALSTORAGE.hasItem('bg')===true) {
+				setBackground(LOCALSTORAGE.getItem('bg'));
+			} else {
+				//set default background (first in list)
+				setBackground(DEFAULT_BG);
+			}
+			//  start animation
+			// have to keep this out of css to avoid flicker
+			$cat[0].style.webkitAnimationDuration= "0.2s";
+			$cat[0].style.webkitAnimationIterationCount= "1";
+			$cat[0].style.webkitAnimationName = "shake";
+			//bind 'click' or 'touchend'
+			setTimeout(function () {
+				$cat.bind(clickEvent, function(event) {
+					event.preventDefault();
+					raiseLuck();
+				});
+			},CSS_ANIMATION_TIME);
+		
+
+			setNavigationListeners();
+            
+            //_inmobi.getNewAd(document.getElementById('inmobi_ad'));
+             /*            
+                         
+            var sc = document.createElement("script");
+            sc.src="http://cf.cdn.inmobi.com/ad/inmobi.js";
+            sc.type="test/javascript";
+            console.log('before add');
+            document.getElementById('inmobi_ad').appendChild(sc);*/
+		});
+		
+		function setBadges() {
+			var score=SCOREHELPER.getSavedScore();
+			if (score>=6) {
+				//console.log('first badge');
+				$('.badge.first').removeClass('hide');
+			}
+			if (score>=10) {
+				//console.log('second badge');
+				$('.badge.second').removeClass('hide');
+			}
+			if (score>=16) {
+				//console.log('third badge');
+				$('.badge.third').removeClass('hide');
+			}
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+
+		function setCat(cat) {
+			///fcat_normal, bcat_normal
+			LOCALSTORAGE.setItem('cat',cat);
+			$cat.addClass(cat);
+		}
+		
+		function raiseLuck() {
+			var showHappyAnimation=false;
+			if ( currentLuck === 7 ) {
+				//show special stuff
+				$('#soHappy').show();
+				$cat.addClass('happy');
+				$stars.addClass('hearts');
+				currentLuck=currentLuck+1;
+				// start raising scores..
+				
+				if (!SCOREHELPER.hasScoredToday() && SCOREHELPER.getSavedScore() < 16) {
+					SCOREHELPER.setFullScoreDay(new Date());
+					if (parseInt(SCOREHELPER.getSavedScore())==5) {
+						setTimeout( function () {phoneGapAlert("New Achievment!\r\nCheck your backgrounds!\r\nOne more day to unlock your first game!");setBadges();},CSS_ANIMATION_TIME);
+					} else {
+						setTimeout( function () {phoneGapAlert('New achievement. Check your Awards!');setBadges();},CSS_ANIMATION_TIME);
+					}
+				}
+				showHappyAnimation=true;
+				playMyAudio("sounds/purr1.mp3");
+			} else {
+				currentLuck=currentLuck+1;
+				playMyAudio("sounds/meow1.mp3");
+			}
+			if ( currentLuck <= 8 ) {
+				$slider.css( "top", '-='+oneEithInPixels);
+			}
+			
+			// reset flower,star animation OPTIMIZE
+			$stars.each( function(index,obj) {
+				obj.style.webkitAnimationName = "";
+			});
+			$cat[0].style.webkitAnimationName = "";
+			
+			// HACK!!! this puts it in the js-processing chain at the end.
+			// keeps us from worrying about timing
+			setTimeout(function () {
+				// set random css animation
+				$stars.each( function(index,obj) {
+					obj.style.webkitAnimationName = "cherryBlossom"+(randomInt(1,4));
+				});
+				if (!showHappyAnimation) {
+					// standard animation
+					$cat[0].style.webkitAnimationDuration= "0.2s";
+					$cat[0].style.webkitAnimationIterationCount= "1";
+					$cat[0].style.webkitAnimationName = "popOut";
+				} else {
+					//TODO: show happy animation
+					// happy animation
+					$cat[0].style.webkitAnimationDuration= "0.2s";
+					$cat[0].style.webkitAnimationIterationCount= "10";
+					$cat[0].style.webkitAnimationName = "shake";
+					showHappyAnimation=false;
+				}
+			}, 0);
+		}
+		
+		function setNavigationListeners() {
+			$('#infoImg').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='info.html';
+			});
+			$('#settingsImg').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='settings.html';
+			});
+			$('#awardsImg').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='awards.html';
+			});
+			$('.badge').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='awards.html';
+			});
+			$('#niceImg').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='nice.html';
+			});
+			$('#nutImg').bind(clickEvent,function(event) {
+				event.preventDefault();
+				document.location='nut.html';
+			});
+		}
+	</script>
+  </head>
+  <body>
+
+	<div id="content" class="">
+		<div id="bar" class="floatLeft"><div id="slider"></div></div>
+		<div id="cat" class="floatLeft" ></div>
+		<div class="clear"></div>
+		<div id="menu" >
+			<div class="menuItem floatLeft"><div class="menuItem" id="infoImg"></div><p>Info&nbsp;&nbsp;&nbsp;</p></div>
+			<div class="menuItem floatLeft"><div class="menuItem" id="settingsImg"></div><p>Settings</p></div>
+			<div class="menuItem floatLeft"><div class="menuItem" id="awardsImg"></div><p>Awards</p></div>
+			<div class="menuItem floatLeft"><div class="menuItem" id="niceImg"></div><p>Cute Talk</p></div>
+			<div class="menuItem floatLeft"><div class="menuItem" id="nutImg"></div><p>&nbsp;Lucky Nut</p></div>
+			<div class="clear"></div>
+		</div>
+		<div class="stars star1"></div>
+		<div class="stars star2"></div>
+		<div class="stars star3"></div>
+		<div class="stars star4"></div>
+		<div id="soHappy"></div>
+		<div class="badge first hide"></div>
+		<div class="badge second hide"></div>
+		<div class="badge third hide"></div>
+		
+	</div>
+    
+  </body>
+</html>

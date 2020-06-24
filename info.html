@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maneki Neko - Info</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/iscroll21.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name= "viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+		var myScroll;
+		var $content;
+			$(document).bind(readyEvent,function() {
+			
+				$('#back').bind(clickEvent, function(event) {
+					event.preventDefault();
+					document.location='index.html';
+				});
+				
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				
+				setTimeout( function() {
+					document.ontouchmove = function(e) { e.preventDefault(); return false; }
+					myScroll = new iScroll( document.getElementById('scroller') );
+				}, 100);
+		});
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+	</script>
+  </head>
+  <body>
+	
+	<div id="content" class="dark">
+		<div id="infoHolder">
+			<div id="infoLogo"></div>
+			<div id="headline">
+				Maneki Neko
+			</div>
+			<div id="wrapper">
+				<div id="scroller">
+					<p>
+						 (招き猫, literally "Beckoning Cat"; also known as Welcoming Cat, Lucky Cat, Cat Swipe, Money cat, or Fortune Cat) is a common Japanese sculpture, often made of ceramic, which is believed to bring good luck to the owner. The sculpture depicts a cat (traditionally a calico Japanese Bobtail) beckoning with an upright paw, and is usually displayed — many times at the entrance — in shops, restaurants, pachinko parlors, and other businesses. Some of the sculptures are electric or battery-powered and have a slow-moving paw beckoning. In the design of the sculptures, a raised left paw supposedly attracts money, while a raised right paw protects it.
+					</p>
+					<p>
+		Maneki Neko come in different colors, styles, and degrees of ornateness. In addition to sculptures, Maneki Neko can be found as keychains, piggy banks, air fresheners, and miscellaneous ornaments.
+		Due to its popular presence within Chinese communities it is frequently mistaken for being Chinese in origin rather than Japanese and is mistakenly referred to as a Chinese Lucky Cat.
+					<br/><br/>
+					<div id="sampleCat"></div>
+					<br/><br/>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="back"></div>
+	</div>
+    
+  </body>
+</html>

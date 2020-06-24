@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>About</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/iscroll21.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name= "viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+		var myScroll;
+		var $content;
+			$(document).bind(readyEvent,function() {
+				$('#back').bind(clickEvent, function(event) {
+					event.preventDefault();
+					document.location='settings.html';
+				});
+				$('#ourLogo').bind(clickEvent, function(event) {
+					event.preventDefault();
+					try {
+						window.location.href='http://redroostermobile.com/luckykitty'; 
+					} catch (e) {
+						try {
+							document.location='http://redroostermobile.com/luckykitty'; 
+						} catch (ee) {
+							// hmm, do nothing
+						}
+					}
+					
+					
+				});
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				
+				setTimeout( function() {
+					document.ontouchmove = function(e) { e.preventDefault(); return false; }
+					myScroll = new iScroll( document.getElementById('scroller') );
+				}, 100);
+		});
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+	</script>
+  </head>
+  <body>
+	
+	<div id="content" class=" dark">
+		<div id="infoHolder">
+			<div id="setAbout" class="about"></div>
+			<div id="headline">Lucky Kitty</div>
+			<div id="wrapper" style="height:300px;">
+				<div id="scroller">
+					<p>
+						We are proud to present you our most upcheering Lucky Kitty App. Treat your cats well and they'll reward you with uplifting quotes, fun games and more cute members for your cat family. Share your luck with your friends via facebook and spread some love.
+						<br />
+						<div id="ourLogo" ></div>
+						<br/>
+						Red Rooster Mobile is an independent, innovative app forge. If you have any ideas, recommendations, inspiration or criticism drop us a note at <a href="mailto:support@redroostermobile.com">support@redroostermobile.com</a> or visit us online by tapping the red rooster above.
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="back"></div>
+	</div>
+    
+  </body>
+</html>

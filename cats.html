@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cats</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/SCOREHELPER.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+		//willie dison spoonful
+		 // mother earth memphis slim
+		 //albert collins
+		$(document).bind(readyEvent,function() {
+				setNavigationListeners();
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				setAvailableCats();
+		});
+		
+		function setAvailableCats() {
+				var cats = $('.settingsCat:not(.fan)');
+				var score=SCOREHELPER.getCatsScore();
+				var limiter=score>cats.length?cats.length:score;
+				for (var i=0;i<limiter;i++) {
+					$(cats[i]).addClass('active');
+					//add click-events
+					// "first" call it "redStar" instead
+					// and assign click event with setBackground(classesList[1])
+					//FNORDCODE FOR NOW
+					$(cats[i]).bind(clickEvent, function(event) {
+						var classesList = event.target.className.split(/\s+/);
+						setCat(classesList[1]);
+					});
+				}
+		}
+		
+		function setNavigationListeners() {
+			$('#back').bind(clickEvent, function(event) {
+				event.preventDefault();
+				document.location='settings.html';
+			});
+		}
+		
+		function setCat(cat) {
+			LOCALSTORAGE.setItem('cat',cat);
+			phoneGapAlert('Cat chosen. Go back to main screen to pet it!');
+			//$content.removeClass(SCOREHELPER.getAvailableCats().join(' '));
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+		
+	</script>
+  </head>
+  <body>
+
+	<div id="content" class="dark">
+		<div id="backgrounds">
+			<div class="settingsCat acat_normal active"></div>
+			<div class="settingsCat bcat_normal active"></div>
+			<div class="settingsCat ccat_normal"></div>
+			<div class="settingsCat dcat_normal"></div>
+			<div class="settingsCat ecat_normal"></div>
+			<div class="settingsCat fcat_normal"></div>
+			<div class="settingsCat gcat_normal"></div>
+			<div class="settingsCat hcat_normal"></div>
+			<!--<div class="settingsCat fan"> Be lucky , buy kitty</div>-->
+			<div class="clear"></div>
+		</div>
+		<div id="back" ></div>
+	</div>
+    
+  </body>
+</html>

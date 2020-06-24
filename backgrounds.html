@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Backgrounds</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/SCOREHELPER.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content= "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+		//willie dison spoonful
+		 // mother earth memphis slim
+		 //albert collins
+		$(document).bind(readyEvent,function() {
+				setNavigationListeners();
+				$content = $('#content');
+				
+				if (LOCALSTORAGE.hasItem('bg')===true) {
+					setBackground(LOCALSTORAGE.getItem('bg'));
+				}
+				setAvailableBackgrounds();
+		});
+		
+		function setAvailableBackgrounds() {
+				var bgs = $('.background');
+				var score=SCOREHELPER.getBackgroundScore();
+				var limiter=score>bgs.length?bgs.length:score;
+				for (var i=0;i<limiter;i++) {
+					$(bgs[i]).addClass('active');
+					//add click-events
+					// "first" call it "redStar" instead
+					// and assign click event with setBackground(classesList[1])
+					//FNORDCODE FOR NOW
+					$(bgs[i]).bind(clickEvent, function(event) {
+						var classesList = event.target.className.split(/\s+/);
+						setBackground(classesList[1]);
+					});
+				}
+		}
+		
+		function setNavigationListeners() {
+			$('#back').bind(clickEvent, function(event) {
+				event.preventDefault();
+				document.location='settings.html';
+			});
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.removeClass(SCOREHELPER.getAvailableBackgrounds().join(' '));
+			$content.addClass(bg);
+		}
+	</script>
+  </head>
+  <body>
+
+	<div id="content" class="dark">
+		<div id="backgrounds">
+			<div class="background redStar active"></div>
+			<div class="background paperMountain active"></div>
+			<div class="background moonShine"></div>
+			<div class="background japaneseSunset"></div>
+			<div class="background blueRainbow"></div>
+			<div class="background redSun"></div>
+			<div class="background blueCircles"></div>
+			<div class="background purpleHaze"></div>
+			<div class="clear"></div>
+		</div>
+		<div id="back" ></div>
+	</div>
+    
+  </body>
+</html>

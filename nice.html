@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Say nice things</title>
+	<script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/LOCALSTORAGE.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/commons.js"></script>
+	<!-- phonegap facebook plugin -->
+	<script  type="text/javascript" charset="utf-8"  src="js/pg-plugin-fb-connect.js"></script>
+	<!-- facebook js sdk -->
+	<script  type="text/javascript" charset="utf-8"  src="js/facebook_js_sdk.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/FBCONNECT.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name= "viewport" /> 
+	<link rel="stylesheet" type="text/css" href="css/luckypussy.css">
+	<script type="text/javascript">
+		var $content;
+		$(document).bind(readyEvent,function() {
+			
+			$('#back').bind(clickEvent, function(event) {
+					event.preventDefault();
+					document.location='index.html';
+			});		
+            if ( (typeof FB != 'undefined') && isPhoneGapThere() ) {
+				FBCONNECT.init(FB_APP_ID);
+				$('#fbpost').bind(clickEvent, function(event) {
+						event.preventDefault();
+						var author = '"';
+						if ($('#author').html()!=null) {
+							author = '" - '+trim($('#author').html().split('»')[1].split('«')[0]);
+						}
+						var quote= '"'+trim($('.quote').html());
+						FBCONNECT.setPostObj(quote+author,
+						'http://redroostermobile.com/wp-content/uploads/2012/02/cuteTalkCat.png',
+						'http://www.lucky-kitty.me',
+						'Lucky Kitty',
+						'good luck will cheer you up!',
+						'A lovely kitty familiy that brings you luck and joy to your iPhone. They share the wisdom of the world with you and your friends');
+						FBCONNECT.startPostAttempt();
+				});
+			}
+			
+			$content = $('#content');
+			if (LOCALSTORAGE.hasItem('bg')===true) {
+				setBackground(LOCALSTORAGE.getItem('bg'));
+			}
+			// read quotes from file and display randomly
+			$.get('texte/cheerup/out.txt', function(data) {
+				var quotes = data.split("\n");
+				// show first quote
+				newQuote(quotes);
+				// show other quote whne clicked on specker
+				$('#cuteSpeaker').bind(clickEvent, function(event) {
+					newQuote(quotes);
+					playMyAudio("sounds/nut_crack.mp3");
+				});
+			});
+			
+			addMediaUrl("sounds/nut_crack.mp3");
+		});
+		
+		function newQuote(quotes) {
+			var idx = randomInt(0,quotes.length-1);
+			var split = quotes[idx].split('~');
+			if(split[1]) {
+				// has author
+				var htmlString = '<div class="quote">'+split[0]+'</div> <div id="author">» '+split[1]+' «</div>';
+				$('#quote').html(htmlString);
+			} else {
+				// no author
+				$('#quote').html(quotes[idx]);
+			}
+		}
+		
+		function setBackground(bg) {
+			// paperMountain, redStar
+			LOCALSTORAGE.setItem('bg',bg);
+			$content.addClass(bg);
+		}
+	</script>
+	
+  </head>
+  <body>
+	
+	<div id="content" class="">
+		<div id="bubbleHolder">
+			<div id="quote"></div>
+		</div>
+		<div id="cuteSpeaker"></div>
+		<div id="back"></div>
+		<div id="fbpost"></div>
+	</div>
+    
+  </body>
+</html>

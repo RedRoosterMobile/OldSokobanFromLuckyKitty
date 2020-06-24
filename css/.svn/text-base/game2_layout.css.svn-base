@@ -1,0 +1,157 @@
+
+	@-webkit-keyframes highlight {
+		0% { color: #999; }
+		50% { color: #fff; }
+		100% { color: #999; }
+	}
+
+	.gameboard {
+		width: 320px;
+		height: 400px;
+	}
+
+	.gameboard {
+		position: relative;
+	}
+
+	.gameboard-reset {
+		right: -600px;
+	}
+	
+	.gameboard ul {
+		width: 310px;
+		height: 310px;
+		-webkit-transition-property: all;
+		-webkit-transition-duration: 0.5s;
+		-webkit-padding-start: 10px;
+		-webkit-margin-before: 0em;
+		-webkit-margin-after: 0em;
+		padding-top: 10px;
+	}
+	
+	.gameboard li.card-selected {
+		z-index:1000;
+	}
+	/* @group Game Elements */
+	.card {
+		position: relative;
+		width: 72px;
+		height: 72px;
+		margin: 0 3px 3px 0;
+		float: left;
+		display: inline;
+		-webkit-perspective: 500;
+		-webkit-transition-property: all;
+		-webkit-transition-duration: 0.5s;
+	}
+
+	.card span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		width: 72px;
+		height: 72px;
+		-webkit-transition-property: transform;
+		-webkit-transition-duration: 0.3s;
+		-webkit-transition-timing-function: ease-out;
+		-webkit-backface-visibility: hidden;
+		-webkit-transform-style: preserve-3d;
+		border-radius: 12px;
+		-webkit-border-radius: 12px;
+		box-shadow: #000 0 1px 2px;
+		-webkit-box-shadow: #000 0 1px 2px;
+	}
+	.card span {
+		-webkit-transform: rotateY(0deg);
+		background: #fff url(../images/new/games/game2/cards/cardback_01.png) no-repeat 50% 50%;
+		-webkit-background-size: 72px 72px;
+		z-index: 900;
+	}
+	
+	.epic-win .card span {
+		background-image: url(../images/new/games/game2/cards/cardback_win2.png);
+	}
+	
+	.card span.back {
+		-webkit-transform: rotateY(-180deg);
+		background: #fff url(../images/new/games/game2/cards/card01.png) no-repeat 50% 50%;
+		z-index: 800;
+	}
+
+	.card-selected span {
+		-webkit-transform: rotateY(180deg);
+		height: 80px;
+		width: 80px;
+		top: -4px;
+		left: -4px;
+		-webkit-background-size: 80px 80px;
+		border-radius: 14px;
+		-webkit-border-radius: 14px;
+		box-shadow: #333 0 2px 4px;
+		-webkit-box-shadow: #333 0 2px 4px;
+	}
+	
+	.card-selected span.back {
+		-webkit-transform: rotateY(0deg);
+		z-index: 9000;
+	}
+	
+	.card-alt span {
+		-webkit-transform: rotateX(0deg);
+	}
+	
+	.card-alt span.back {
+		-webkit-transform: rotateX(-180deg);
+	}
+	
+	.card-alt.card-selected span {
+		-webkit-transform: rotateX(180deg);
+	}
+	
+	.card-alt.card-selected span.back {
+		-webkit-transform: rotateX(0);
+	}
+	
+	.card-1 span.back { 	background-image: url(../images/new/games/game2/cards/card01.png); }
+	.card-2 span.back { 	background-image: url(../images/new/games/game2/cards/card02.png); }
+	.card-3 span.back { 	background-image: url(../images/new/games/game2/cards/card03.png); }
+	.card-4 span.back { 	background-image: url(../images/new/games/game2/cards/card04.png); }
+	.card-5 span.back { 	background-image: url(../images/new/games/game2/cards/card05.png); }
+	.card-6 span.back { 	background-image: url(../images/new/games/game2/cards/card06.png); }
+	.card-7 span.back { 	background-image: url(../images/new/games/game2/cards/card07.png); }
+	.card-8 span.back { 	background-image: url(../images/new/games/game2/cards/card08.png); }
+	
+	.gameboard-alt1 ul {
+		-webkit-transform: rotate(90deg);
+	}
+	
+	.gameboard-alt1 ul .card {
+		-webkit-transform: rotate(-90deg);
+	}
+	
+	.gameboard-alt2 ul {
+		-webkit-transform: rotate(-90deg);
+	}
+		
+	.gameboard-alt2 ul .card {
+		-webkit-transform: rotate(90deg);
+	}
+		
+	.gameboard .win {
+		width: 300px;
+		height: 40px;
+		
+		position: absolute;
+		top: 150px;
+		left: 75px;
+		font-size:18px;
+		display: none;
+		
+		-webkit-animation-name: highlight;
+		-webkit-animation-duration: 0.5s;
+		-webkit-animation-iteration-count: infinite;
+		
+		text-shadow: rgba(0,0,0,0.5) 0 -1px 0;
+		-webkit-text-shadow: rgba(0,0,0,0.5) 0 -1px 0;
+	}
